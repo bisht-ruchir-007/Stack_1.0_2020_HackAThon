@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TodoList App</title>
+    <!-- bootstrap cdn -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+
+    <script
+      src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+      integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+      integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+      integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- google fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Righteous"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body style="background: linear-gradient(to bottom, #33ccff 0%, #ff99cc 100%);"></body>
+    <div class="hero">
+      <div class="container">
+        <h1 class="display-2 text-center">TodoList</h1>
+        <p class="text-center">Manage All your tasks</p>
+
+        <% if(alertmsg.length>0) { %>
+        <div
+          class="alert alert-warning alert-dismissible fade show"
+          role="alert"
+        >
+          <strong><%= alertmsg %></strong>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="alert"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <% } %>
+
+        <div class="row">
+          <form
+            id="form"
+            class="col-lg-6 col-8 mx-auto"
+            method="POST"
+            action="/newTask"
+          >
+            <h5>Enter task</h5>
+            <input
+              class="form-control"
+              type="text"
+              placeholder="Enter a task"
+              name="item"
+            />
+            <br />
+            <h5>Enter Due Date(format : DD/MM/YYYY)</h5>
+            <input class="form-control" type="date" name="dueDate" />
+            <br />
+            <h5>Select a Label</h5>
+            <select class="form-control" name="label">
+              <option value="Personal">Personal</option>
+              <option value="Work">Work</option>
+              <option value="Shopping">Shopping</option>
+              <option value="Other">Other</option>
+            </select>
+            <br />
+            <h5>Set Priority</h5>
+            <select class="form-control" name="Priority">
+              <option value="1">High</option>
+              <option value="2">Average</option>
+              <option value="3">Low</option>
+            </select>
+            <br />
+            <br />
+            <center>
+              <input type="submit" value="Submit" class="btn btn-success" />
+            </center>
+          </form>
+        </div>
+        <br />
+        <center>
+          <a href="/userhome"
+            ><button class="btn btn-danger">
+              Back
+            </button></a
+          >
+        </center>
+      </div>
+    </div>
+    <br><br><br>
+    <footer class="page-footer font-small indigo">
+      <div class="container">
+        <div class="row text-center d-flex justify-content-center pt-5 mb-3">
+          <div class="col-md-2 mb-3">
+            <h6 class="text-uppercase font-weight-bold">
+              <a href="https://ruchir-bisht-007.netlify.com/">About Us</a>
+            </h6>
+          </div>
+          <div class="col-md-2 mb-3">
+            <h6 class="text-uppercase font-weight-bold">
+              <a href="https://github.com/bisht-ruchir-007">GitHub</a>
+            </h6>
+          </div>
+          <div class="col-md-2 mb-3">
+            <h6 class="text-uppercase font-weight-bold">
+              <a href="https://www.hackerearth.com/challenges/hackathon/stackhack-v1/">Theme</a>
+            </h6>
+          </div>
+          <div class="col-md-2 mb-3">
+            <h6 class="text-uppercase font-weight-bold">
+              <a href="#!">Contact</a>
+            </h6>
+          </div>
+        </div>
+        <hr class="rgba-white-light" style="margin: 0 15%;">
+        <div class="row d-flex text-center justify-content-center mb-md-0 mb-4">
+          <div class="col-md-8 col-12 mt-5">
+            <p style="line-height: 1.7rem">This is Task Management To-do list which allows the user to add,serach,filter,sort 
+            and view tasks. Every task consist of Task Name , its Due Date , Label and priority. Filtering of the task can be 
+            done on the basis of label,priority,task name,due date .</p>
+          </div>
+
+        </div>
+        <hr class="clearfix d-md-none rgba-white-light" style="margin: 10% 15% 5%;">
+      </div>
+      <div class="footer-copyright text-center py-3">© 2020 Copyright:
+        <a href="https://ruchir-bisht-007.netlify.com/"><b>RUCHIR BISHT</b></a>
+      </div>
+      </footer>
+  </body>
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TodoList App</title>
+    <!-- bootstrap cdn -->
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+
+
+    <!-- google fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Righteous"
+      rel="stylesheet"
+    />
+    <style>
+
+    .l-1{
+      font-size: large;
+      font-weight: 600;
+      background-color:lightcoral;
+    }
+    .l-2{
+      font-size: large;
+      font-weight: 600;
+      background-color: lightsalmon;
+    }
+    .l-3{
+      font-size: large;
+      font-weight: 600;
+      background-color: lightgoldenrodyellow;
+    }
+    .done{
+      font-size: large;
+      font-weight: 600;
+      background-color: lightgreen;
+    }
+
+    ul li:hover{
+      background-color: lightseagreen;
+      color: white;
+      font-size: x-large;
+    }
+    .row{
+      padding: 1rem;
+    }
+
+    </style>
+
+    
+  </head>
+
+  <body style="background: linear-gradient(to bottom, #33ccff 0%, #ff99cc 100%);">
+    <div class="hero">
+      <div class="container">
+        <h1 class="display-2 text-center">TodoList</h1>
+        <p class="text-center">Manage All your tasks</p>
+        <center>
+               <font color="red">
+                <strong id="date_time"></strong>          
+               </font>
+             <br><br>
+                <a href="/newTask"
+                  ><button type="button" class="btn btn-warning mx-auto">
+                    ADD TASK
+                  </button></a
+                >
+                
+                <a href="/userhome"
+                  ><button type="button" class="btn btn-danger mx-auto">
+                    BACK
+                  </button></a
+                >
+        <br>
+        <br>
+        <div class="container">
+          <div class="row">
+            <div class="col-sm">
+              <div class="form " ">
+                <h3 class="heading">Task Completed</h3>
+                  <form method="POST" action="/showTasks">
+                    <small>Enter the TaskID by Copying it From the task (Just Double tab on the ID input and Copy)</small>
+                    <input  class="form-control" type="text" name="taskid" placeholder="Enter the TaskID"><br>
+                    <input type="submit" value="Done" class="btn btn-success" />
+                  </form>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm">
+              <div class="form-control">
+                <h3 class="heading">Sort My tasks</h3>
+                  <form method="POST" action="/sortedTasks">
+                    <small>Select a sorting critiria </small>
+                    <select class="form-control" name="sortingCatagory">
+                      <option value="dueDate">Due Date</option>
+                      <option value="priority">Priority</option>
+                    </select><br>
+                    <img src="https://cdn.iconscout.com/icon/free/png-512/sort-14-444984.png" alt="sorting_img" height="85px" width="100px"><br>
+                    <input type="submit" value="Serach" class="btn btn-success" />
+                  </form>
+              </div>
+            </div>
+
+            <div class="col-sm">
+              <div class="form-control">
+                <h3 class="heading">Search Task</h3>
+                <small>Enter the task Name </small>
+                  <form method="POST" action="/serachByLabel">
+                    <input  class="form-control" type="text" name="taskName" placeholder="Enter the task name"><br>
+                    <small>Select a Label</small>
+                    <select class="form-control" name="taskLabel">
+                      <option value="Personal">Personal</option>
+                      <option value="Work">Work</option>
+                      <option value="Shopping">Shopping</option>
+                      <option value="Other">Other</option>
+                    </select><br>
+                    <input type="submit" value="Serach" class="btn btn-success" />
+                  </form>
+              </div>
+            </div>
+          </div>
+
+            <h2 class="display-6">TASKS PENDING</h2>
+              <% if(toDoList.length > 0 ) { %>
+                <ul class="list-group">
+                  <% for(var i=0;i< toDoList.length;i++) { %>
+                    <% if(toDoList[i].completed == "false" ) { %>
+                      <li class="l-<%= toDoList[i].priority %> list-group-item d-flex justify-content-between align-items-center">
+                        <%  if( Math.ceil((new Date(toDoList[i].dueDate) - new Date())/ (1000 * 3600 * 24)) <=0 ) { %>
+                          <span class="badge badge-danger badge-pill">💀</span>
+                        <% } %>  
+                        <%  if( Math.ceil((new Date(toDoList[i].dueDate) - new Date())/ (1000 * 3600 * 24)) >0 ) { %>
+                          <span class="badge badge-primary badge-pill"><%= Math.ceil((new Date(toDoList[i].dueDate) - new Date())/ (1000 * 3600 * 24)) %></span>
+                        <% } %>  
+                        <small><%= toDoList[i].dueDate.getDate()%> / <%= toDoList[i].dueDate.getMonth()%> / <%= toDoList[i].dueDate.getFullYear()%></small>
+                        <strong><%= toDoList[i].name %></strong>
+                        <br/>
+                        <h5><%= toDoList[i].label%></h5>
+                        <input type="text" name="taskid" value="'<%= toDoList[i]._id %>'"><br>    
+                      </li><br>
+                    <% } %> 
+                  <% } %>
+                </ul>
+              <% } %> 
+
+              <!-- <h1><%= new Date();%></h1> -->
+
+            <h2 class="display-6">TASKS COMPELETED</h2>
+              <% if(toDoList.length > 0 ) { %>
+                <ul class="list-group">
+                  <% for(var i=0;i< toDoList.length;i++) { %>
+                    <% if(toDoList[i].completed == "True" ) { %>
+                      <li class="done list-group-item d-flex justify-content-between align-items-center">
+                        <span class="badge badge-success badge-pill">✔️</span>
+                        <%= toDoList[i].name %>
+                        <br/>
+                        <small><%= toDoList[i].dueDate%></small>
+                        <h5><%= toDoList[i].label%></h5>
+                        <input type="text" name="taskid" value="'<%= toDoList[i]._id %>'"><br>
+                      </li><br>
+                    <% } %> 
+                  <% } %>
+                </ul>
+              <% } %> 
+            
+        </center>
+    </div>
+    <br><br><br>
+    <footer class="page-footer font-small indigo">
+      <div class="container">
+        <div class="row text-center d-flex justify-content-center pt-5 mb-3">
+          <div class="col-md-2 mb-3">
+            <h6 class="text-uppercase font-weight-bold">
+              <a href="https://ruchir-bisht-007.netlify.com/">About Us</a>
+            </h6>
+          </div>
+          <div class="col-md-2 mb-3">
+            <h6 class="text-uppercase font-weight-bold">
+              <a href="https://github.com/bisht-ruchir-007">GitHub</a>
+            </h6>
+          </div>
+          <div class="col-md-2 mb-3">
+            <h6 class="text-uppercase font-weight-bold">
+              <a href="https://www.hackerearth.com/challenges/hackathon/stackhack-v1/">Theme</a>
+            </h6>
+          </div>
+          <div class="col-md-2 mb-3">
+            <h6 class="text-uppercase font-weight-bold">
+              <a href="#!">Contact</a>
+            </h6>
+          </div>
+        </div>
+        <hr class="rgba-white-light" style="margin: 0 15%;">
+        <div class="row d-flex text-center justify-content-center mb-md-0 mb-4">
+          <div class="col-md-8 col-12 mt-5">
+            <p style="line-height: 1.7rem">This is Task Management To-do list which allows the user to add,serach,filter,sort 
+            and view tasks. Every task consist of Task Name , its Due Date , Label and priority. Filtering of the task can be 
+            done on the basis of label,priority,task name,due date .</p>
+          </div>
+
+        </div>
+        <hr class="clearfix d-md-none rgba-white-light" style="margin: 10% 15% 5%;">
+      </div>
+      <div class="footer-copyright text-center py-3">© 2020 Copyright:
+        <a href="https://ruchir-bisht-007.netlify.com/"><b>RUCHIR BISHT</b></a>
+      </div>
+      </footer>
+    <script>
+     window.onload = date_time('date_time')
+
+     function date_time(id){
+      
+        date = new Date;
+        year = date.getFullYear();
+        month = date.getMonth();
+        months = new Array('January', 'February', 'March', 'April', 'May', 'June', 'Jully', 'August', 'September', 'October', 'November', 'December');
+        d = date.getDate();
+        day = date.getDay();
+        days = new Array('Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday');
+        h = date.getHours();
+        if(h<10)
+        {
+          h = "0"+h;
+        }
+        m = date.getMinutes();
+        if(m<10)
+        {
+          m = "0"+m;
+        }
+        s = date.getSeconds();
+        if(s<10)
+        {
+          s = "0"+s;
+        }
+        result = ''+days[day]+' '+d+' '+months[month]+' '+' '+year+' '+h+':'+m+':'+s;
+        document.getElementById(id).innerHTML = result;
+
+        setTimeout('date_time("'+id+'");','1000');
+    
+        return true;
+      }
+    </script>
+  </body>
+</html>
