@@ -5,7 +5,7 @@ This is Task Management To-do list which allows the user to add,serach,filter,so
 
 
 # Step 1
-Clone the repo : git clone "URL"
+Clone the repo : git clone https://github.com/bisht-ruchir-007/Stack_2020_HackAThon.git
 
 # Step 2
 Then Install node modules : npm install --save
