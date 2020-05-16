@@ -10,12 +10,9 @@ Clone the repo : git clone https://github.com/bisht-ruchir-007/Stack_2020_HackAT
 # Step 2
 Then Install node modules : npm install --save
 
-# Step 3 
-Run the mongoDB using : mongod command
-
-# Step4
+# Step 3
 Then go to the path where server.js file is stored and 
 type : npm start or node server.js
 
-# Step 5
+# Step 4
 Then open localhost:3000 in the browser. 
