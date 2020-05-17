@@ -3,9 +3,10 @@ var app = express();
 var bodyParser = require("body-parser");
 var PORT = process.env.PORT || 3000;
 var mongoose = require("mongoose");
+// require("dotenv").config();
 
 // connection to the db
-mongoose.connect(process.env.MONGODB_URL || "mongodb://localhost/todo", {
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/todo", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -96,6 +97,33 @@ app.post("/userhome", (req, res) => {
   );
 });
 
+// user profile
+app.get("/profile", (req, res) => {
+  if (!isUserLoggedIn) {
+    res.redirect("/");
+  } else {
+    Todo.find({ userEmail: CurrentUser.useremail }, (err, toDoList) => {
+      if (err) {
+        console.log(err);
+      } else {
+        var total_task = toDoList.length;
+        var task_completed = 0;
+        for (var i = 0; i < toDoList.length; i++) {
+          if (toDoList[i].completed == "True") {
+            task_completed = task_completed + 1;
+          }
+        }
+        res.render("userProfile.ejs", {
+          user: CurrentUser,
+          toDoList: toDoList,
+          total_task: total_task,
+          task_completed: task_completed,
+        });
+      }
+    });
+  }
+});
+
 // Home page
 app.get("/", (req, res) => {
   isUserLoggedIn = false;
@@ -162,7 +190,6 @@ app.post("/newTask", (req, res) => {
 app.get("/showTasks", (req, res) => {
   if (isUserLoggedIn) {
     // console.log(CurrentUser.useremail);
-
     Todo.find({ userEmail: CurrentUser.useremail }, (err, toDoList) => {
       if (err) {
         console.log(err);
